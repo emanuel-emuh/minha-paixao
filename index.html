@@ -8,7 +8,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-        /* Estilos gerais - CURSOR DE CORAÇÃO REMOVIDO para voltar ao padrão */
+        /* Estilos gerais */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
@@ -16,8 +16,6 @@
             background-color: #f7f7f7;
             color: #333;
             text-align: center;
-            /* LINHA ABAIXO FOI REMOVIDA PARA O SITE VOLTAR A ROLAR */
-            /* overflow: hidden; */ 
             position: relative;
         }
 
@@ -30,7 +28,7 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            overflow: hidden; /* Apenas este elemento tem o overflow hidden */
+            overflow: hidden;
         }
         .particle {
             position: absolute;
@@ -362,6 +360,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin: 1em 0;
+            text-align: left; /* Adicionado para garantir o alinhamento */
         }
         .timeline-item h4 {
             margin: 0 0 0.5em 0;
@@ -369,7 +368,6 @@
         }
         .timeline-item p {
             margin: 0;
-            text-align: left;
         }
         .timeline-date {
             position: absolute;
@@ -382,7 +380,17 @@
             transform: translateX(-50%);
             font-weight: bold;
         }
-
+        /* NOVO CSS PARA A LINHA DO TEMPO */
+        .timeline-item:nth-child(even) {
+            margin-left: 50%;
+            padding: 1em 1em 1em 4em;
+        }
+        .timeline-item:nth-child(even) .timeline-date {
+            left: auto;
+            right: 50%;
+            transform: translateX(50%);
+        }
+        
         /* Estilo do Rodapé com Redes Sociais */
         footer {
             background-color: #333;
@@ -749,7 +757,6 @@
             if (musicPlayer) {
                 musicPlayer.play().catch(error => {
                     console.log("Autoplay bloqueado. Clique no botão de play para ouvir a música.");
-                    // Este console.log é para o seu próprio uso, para saber que o autoplay foi bloqueado.
                 });
             }
         });
