@@ -339,13 +339,12 @@
 
         /* Linha do Tempo */
         .timeline {
-            margin-top: 4em;
             position: relative;
-            padding: 2em 0;
             max-width: 800px;
-            margin: 4em auto 0 auto;
+            margin: 4em auto;
+            padding: 0;
         }
-        .timeline::before {
+        .timeline::after {
             content: '';
             position: absolute;
             width: 3px;
@@ -355,54 +354,104 @@
             left: 50%;
             margin-left: -1.5px;
         }
-        .timeline-item {
-            padding: 1em 2em;
+        .timeline-container {
+            padding: 10px 40px;
             position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
             background-color: white;
-            border-radius: 10px;
+            border: 4px solid #ff69b4;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+        .right::after {
+            left: -12px;
+        }
+        .content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 1em 0;
-            width: 45%;
-            text-align: left;
         }
-        /* Alinhamento alternado - Itens à esquerda */
-        .timeline-item:nth-child(2n+1) {
-            margin-left: 2.5%;
-            float: left;
-            clear: left;
-        }
-        /* Alinhamento alternado - Itens à direita */
-        .timeline-item:nth-child(2n) {
-            margin-right: 2.5%;
-            margin-left: auto;
-            float: right;
-            clear: right;
-        }
-
-        .timeline-item h4 {
+        .content h4 {
             margin: 0 0 0.5em 0;
             color: #e91e63;
         }
-        .timeline-item p {
-            margin: 0;
-        }
         .timeline-date {
             position: absolute;
-            top: 50%;
+            top: 0;
             background-color: #ff69b4;
             color: white;
             padding: 0.5em 1em;
             border-radius: 10px;
             font-weight: bold;
             transform: translateY(-50%);
+            z-index: 2;
         }
-        /* Posicionamento da data nos itens da esquerda */
-        .timeline-item:nth-child(2n+1) .timeline-date {
-            right: -100px;
+        .left .timeline-date {
+            right: -150px;
         }
-        /* Posicionamento da data nos itens da direita */
-        .timeline-item:nth-child(2n) .timeline-date {
-            left: -100px;
+        .right .timeline-date {
+            left: -150px;
+        }
+        
+        /* Estilo para a nova caixa de mensagem */
+        .message-box {
+            margin-top: 2em;
+            padding: 2em;
+            background-color: #ffe4e1;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .message-box h3 {
+            color: #e91e63;
+            font-size: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .message-box p {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.6;
         }
         
         /* Estilo do Rodapé com Redes Sociais */
@@ -430,28 +479,32 @@
             h1 {
                 font-size: 2em;
             }
-            .timeline {
-                max-width: 100%;
+            .timeline::after {
+                left: 31px;
             }
-            .timeline::before {
-                left: 10px;
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
             }
-            .timeline-item,
-            .timeline-item:nth-child(2n+1),
-            .timeline-item:nth-child(2n) {
-                width: auto;
-                float: none;
-                clear: none;
-                margin-left: 30px;
-                margin-right: 10px;
+            .timeline-container::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
             }
-            .timeline-date,
-            .timeline-item:nth-child(2n+1) .timeline-date,
-            .timeline-item:nth-child(2n) .timeline-date {
-                left: 10px;
+            .left::after, .right::after {
+                left: 18px;
+            }
+            .right {
+                left: 0;
+            }
+            .left .timeline-date, .right .timeline-date {
+                right: auto;
+                left: -20px;
                 top: 0;
-                transform: translateX(0);
-                margin-top: 10px;
+                transform: translateY(0);
+                text-align: left;
             }
         }
     </style>
@@ -518,20 +571,26 @@
 
         <section class="timeline">
             <h2>Nossa Linha do Tempo</h2>
-            <div class="timeline-item">
+            <div class="timeline-container left">
                 <div class="timeline-date">07/08/2024</div>
-                <h4>Nosso primeiro encontro</h4>
-                <p>O dia em que tudo começou e eu soube que minha vida mudaria para sempre. Aquela noite foi mágica.</p>
+                <div class="content">
+                    <h4>Nosso primeiro encontro</h4>
+                    <p>O dia em que tudo começou e eu soube que minha vida mudaria para sempre. Aquela noite foi mágica.</p>
+                </div>
             </div>
-            <div class="timeline-item">
+            <div class="timeline-container right">
                 <div class="timeline-date">10/09/2024</div>
-                <h4>Primeira viagem juntos</h4>
-                <p>Nossa primeira aventura, com paisagens lindas e momentos que ficarão para sempre em nossos corações.</p>
+                <div class="content">
+                    <h4>Primeira viagem juntos</h4>
+                    <p>Nossa primeira aventura, com paisagens lindas e momentos que ficarão para sempre em nossos corações.</p>
+                </div>
             </div>
-            <div class="timeline-item">
+            <div class="timeline-container left">
                 <div class="timeline-date">25/12/2024</div>
-                <h4>Primeiro Natal juntos</h4>
-                <p>Celebrar o Natal ao seu lado foi a melhor coisa do mundo. Trocamos presentes e criamos uma nova tradição!</p>
+                <div class="content">
+                    <h4>Primeiro Natal juntos</h4>
+                    <p>Celebrar o Natal ao seu lado foi a melhor coisa do mundo. Trocamos presentes e criamos uma nova tradição!</p>
+                </div>
             </div>
             </section>
         
@@ -562,6 +621,15 @@
                     <img src="amor-6.jpeg" alt="Descrição da foto 3">
                 </div>
             </div>
+        </section>
+
+        <section class="message-box">
+            <h3>Uma Mensagem para Você</h3>
+            <p>
+                Olá, meu amor! Eu não sei por onde começar, mas com certeza você foi a melhor pessoa que eu já conheci na minha vida. Exatamente hoje completa 1 ano de namoro, e com isso eu fico muito feliz! Porque isso me faz refletir que 1 ano atrás foi por onde os nossos caminhos se cruzaram, 
+                isso significa que com esse 1 ano de namoro que estamos juntos, foram os dias mais incríveis e felizes na minha vida e como é bom está ao seu lado. Com você ao lado, percebi que tudo fluía muito bem na minha vida,e saber o quão incrível é compartilhar a minha felicidade contigo e 
+                mesmo nos meus piores dias você está lá me apoiando e me dando felicidades. Minha vida só começou ter sentido depois que você chegou no meu coração, você me demonstrou um amor tão intenso, verdadeiro e único que….
+            </p>
         </section>
     </main>
 
