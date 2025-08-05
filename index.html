@@ -342,6 +342,8 @@
             margin-top: 4em;
             position: relative;
             padding: 2em 0;
+            max-width: 800px;
+            margin: 4em auto 0 auto;
         }
         .timeline::before {
             content: '';
@@ -354,14 +356,29 @@
             margin-left: -1.5px;
         }
         .timeline-item {
-            padding: 1em 4em 1em 1em;
+            padding: 1em 2em;
             position: relative;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin: 1em 0;
-            text-align: left; /* Adicionado para garantir o alinhamento */
+            width: 45%;
+            text-align: left;
         }
+        /* Alinhamento alternado - Itens à esquerda */
+        .timeline-item:nth-child(2n+1) {
+            margin-left: 2.5%;
+            float: left;
+            clear: left;
+        }
+        /* Alinhamento alternado - Itens à direita */
+        .timeline-item:nth-child(2n) {
+            margin-right: 2.5%;
+            margin-left: auto;
+            float: right;
+            clear: right;
+        }
+
         .timeline-item h4 {
             margin: 0 0 0.5em 0;
             color: #e91e63;
@@ -371,24 +388,21 @@
         }
         .timeline-date {
             position: absolute;
-            left: 50%;
-            top: 1.5em;
+            top: 50%;
             background-color: #ff69b4;
             color: white;
             padding: 0.5em 1em;
             border-radius: 10px;
-            transform: translateX(-50%);
             font-weight: bold;
+            transform: translateY(-50%);
         }
-        /* NOVO CSS PARA A LINHA DO TEMPO */
-        .timeline-item:nth-child(even) {
-            margin-left: 50%;
-            padding: 1em 1em 1em 4em;
+        /* Posicionamento da data nos itens da esquerda */
+        .timeline-item:nth-child(2n+1) .timeline-date {
+            right: -100px;
         }
-        .timeline-item:nth-child(even) .timeline-date {
-            left: auto;
-            right: 50%;
-            transform: translateX(50%);
+        /* Posicionamento da data nos itens da direita */
+        .timeline-item:nth-child(2n) .timeline-date {
+            left: -100px;
         }
         
         /* Estilo do Rodapé com Redes Sociais */
@@ -416,14 +430,24 @@
             h1 {
                 font-size: 2em;
             }
+            .timeline {
+                max-width: 100%;
+            }
             .timeline::before {
                 left: 10px;
             }
-            .timeline-item {
-                padding: 1em 1em 1em 3em;
-                text-align: left;
+            .timeline-item,
+            .timeline-item:nth-child(2n+1),
+            .timeline-item:nth-child(2n) {
+                width: auto;
+                float: none;
+                clear: none;
+                margin-left: 30px;
+                margin-right: 10px;
             }
-            .timeline-date {
+            .timeline-date,
+            .timeline-item:nth-child(2n+1) .timeline-date,
+            .timeline-item:nth-child(2n) .timeline-date {
                 left: 10px;
                 top: 0;
                 transform: translateX(0);
