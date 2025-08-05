@@ -80,7 +80,7 @@
             font-size: 1.2em;
             line-height: 1.6em;
             color: #555;
-            display: none;
+            min-height: 5em; /* Garante que a div tenha altura para a animação de digitação */
         }
         
         .slideshow-container {
@@ -99,6 +99,10 @@
             object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.5s ease; /* Transição para o efeito de zoom */
+        }
+        .mySlides img:hover {
+            transform: scale(1.03); /* Efeito de zoom ao passar o mouse */
         }
 
         .prev, .next {
@@ -133,13 +137,24 @@
             cursor: pointer;
             font-size: 6em;
             color: #e91e63;
-            transition: transform 0.3s ease;
+            animation: pulse 1.5s infinite; /* Animação de pulsar */
         }
         .heart-button:hover {
             transform: scale(1.1);
         }
         .heart-button.hidden {
             display: none;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* Animação de corações */
@@ -195,6 +210,24 @@
         .reload-quote:hover {
             text-decoration: underline;
         }
+        
+        /* Player de música */
+        .music-player {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .music-player h3 {
+            color: #e91e63;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .music-player audio {
+            width: 100%;
+        }
 
         /* Estilo do Rodapé com Redes Sociais */
         footer {
@@ -246,18 +279,18 @@
                 <span id="heart-btn" class="heart-button">&#10084;&#65039;</span>
                 <div id="mensagem-secreta" style="display: none;">
                     <h2>Feliz 1 Ano de Namoro, Meu Amor!</h2>
-                    <p>
-                        Meu amor, chegamos a um ano de muitas histórias, risadas e momentos inesquecíveis.
-                        Obrigado por ser a pessoa mais incrível que já conheci. Cada dia ao seu lado é uma aventura.
-                        Que venham muitos e muitos anos mais! Te amo!
-                    </p>
+                    <p id="typed-message"></p>
                 </div>
-                <audio id="musica-surpresa" loop>
-                    <source src="te-vivo.mp3" type="audio/mpeg">
-                    Seu navegador não suporta a tag de áudio.
-                </audio>
             </div>
         </section>
+
+        <div class="music-player">
+            <h3>Nossa Música Especial</h3>
+            <audio controls loop>
+                <source src="te-vivo.mp3" type="audio/mpeg">
+                Seu navegador não suporta a tag de áudio.
+            </audio>
+        </div>
 
         <section class="love-quote">
             <p id="quote-text"></p>
@@ -311,18 +344,18 @@
 
     <div id="heart-rain-container" class="heart-container"></div>
 
-
     <script>
         // Data do aniversário - Não se esqueça de alterar!
         const anniversaryDate = new Date("August 7, 2025 00:00:00").getTime();
+        const messageText = `Meu amor, chegamos a um ano de muitas histórias, risadas e momentos inesquecíveis. Obrigado por ser a pessoa mais incrível que já conheci. Cada dia ao seu lado é uma aventura. Que venham muitos e muitos anos mais! Te amo!`;
 
         const countdownSection = document.querySelector('.countdown');
         const surpriseSection = document.querySelector('.surpresa');
         const heartButton = document.getElementById('heart-btn');
-        const secretMessage = document.getElementById('mensagem-secreta');
-        const musicPlayer = document.getElementById('musica-surpresa');
+        const secretMessageContainer = document.getElementById('mensagem-secreta');
+        const typedMessageElement = document.getElementById('typed-message');
         const heartRainContainer = document.getElementById('heart-rain-container');
-
+        
         let messageRevealed = false;
 
         const timer = setInterval(function() {
@@ -334,12 +367,11 @@
             countdownSection.style.display = 'none';
             surpriseSection.style.display = 'block';
             
-            // Adiciona o evento para revelar a mensagem ao clicar no coração
             heartButton.addEventListener('click', function() {
                 if (!messageRevealed) {
-                    secretMessage.style.display = 'block';
+                    secretMessageContainer.style.display = 'block';
                     heartButton.classList.add('hidden');
-                    musicPlayer.play();
+                    typeMessage(messageText, typedMessageElement);
                     startHeartFall();
                     messageRevealed = true;
                 }
@@ -355,6 +387,20 @@
           document.getElementById("timer").innerHTML = days + "d " + hours + "h "
           + minutes + "m " + seconds + "s ";
         }, 1000);
+
+        function typeMessage(text, element) {
+            let i = 0;
+            element.innerHTML = '';
+            const speed = 50; // Velocidade da digitação (em ms)
+            function typeWriter() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+            typeWriter();
+        }
 
         // Código do Slideshow de fotos (corrigido)
         let slideIndex = 0;
@@ -400,7 +446,7 @@
         }
 
         updateRotatingText();
-        setInterval(updateRotatingText, 4000); // Muda a cada 4 segundos
+        setInterval(updateRotatingText, 4000);
 
         const quotes = [
             "O amor não consiste em olhar um para o outro, mas em olhar juntos na mesma direção.",
@@ -417,7 +463,7 @@
             quoteTextElement.innerHTML = quotes[randomIndex];
         }
         
-        displayRandomQuote(); // Exibe uma frase inicial
+        displayRandomQuote();
 
         // Animação de corações flutuantes
         function startHeartFall() {
