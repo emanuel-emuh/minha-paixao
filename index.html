@@ -473,7 +473,7 @@
 
         <div class="music-player">
             <h3>Nossa Música Especial</h3>
-            <audio controls loop>
+            <audio id="special-music" controls loop>
                 <source src="te-vivo.mp3" type="audio/mpeg">
                 Seu navegador não suporta a tag de áudio.
             </audio>
@@ -742,6 +742,17 @@
             }
         }
         createParticles();
+
+        // Novo script para garantir que a música tente tocar
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const musicPlayer = document.getElementById('special-music');
+            if (musicPlayer) {
+                musicPlayer.play().catch(error => {
+                    console.log("Autoplay bloqueado. Clique no botão de play para ouvir a música.");
+                    // Este console.log é para o seu próprio uso, para saber que o autoplay foi bloqueado.
+                });
+            }
+        });
     </script>
 </body>
 </html>
