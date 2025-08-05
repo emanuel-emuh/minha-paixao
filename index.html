@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feliz 1 Ano, Izabelly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
-        /* Estilos gerais */
+        /* Estilos gerais e cursor de coração */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
@@ -15,18 +16,27 @@
             background-color: #f7f7f7;
             color: #333;
             text-align: center;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5A5.4 5.4 0 0 1 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 22 3 22 8.5 17 14l-5 5.35z"/></svg>'), auto;
         }
 
         header {
-            background-color: #ffb6c1; /* Rosa claro */
+            background-color: #ffb6c1;
             color: white;
             padding: 2em 0;
         }
 
         h1 {
             font-size: 2.5em;
-            font-family: 'Lobster', cursive; /* Aplica a fonte decorativa */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra suave para enfeitar */
+            font-family: 'Lobster', cursive;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #rotating-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e91e63;
+            margin-top: -1em;
+            margin-bottom: 2em;
         }
 
         main {
@@ -39,7 +49,6 @@
             margin-bottom: 2em;
         }
 
-        /* Contador regressivo */
         .countdown {
             margin-top: 4em;
             margin-bottom: 2em;
@@ -48,11 +57,32 @@
         #timer {
             font-size: 2em;
             font-weight: bold;
-            color: #ff69b4; /* Cor de rosa */
+            color: #ff69b4;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        /* Slideshow de fotos */
+        .surpresa {
+            display: none;
+            position: relative;
+            margin-top: 4em;
+            margin-bottom: 2em;
+            background-color: #ffe4e1;
+            padding: 2em;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .surpresa h2 {
+            color: #e91e63;
+        }
+
+        .surpresa p {
+            font-size: 1.2em;
+            line-height: 1.6em;
+            color: #555;
+            display: none;
+        }
+        
         .slideshow-container {
             position: relative;
             max-width: 800px;
@@ -71,7 +101,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* Botões de navegação (corrigidos) */
         .prev, .next {
             cursor: pointer;
             position: absolute;
@@ -84,53 +113,110 @@
             font-size: 20px;
             transition: 0.6s ease;
             user-select: none;
-            background-color: rgba(0,0,0,0.5); /* Cor de fundo mais suave */
-            opacity: 0.7; /* Transparência */
+            background-color: rgba(0,0,0,0.5);
+            opacity: 0.7;
         }
         .prev {
-            left: 10px; /* Move para a esquerda */
+            left: 10px;
             border-radius: 3px 0 0 3px;
         }
         .next {
-            right: 10px; /* Move para a direita */
+            right: 10px;
             border-radius: 3px 0 0 3px;
         }
         .prev:hover, .next:hover {
-            opacity: 1; /* Transparência total ao passar o mouse */
-            background-color: rgba(0,0,0,0.8); /* Cor de fundo mais escura ao passar o mouse */
+            opacity: 1;
+            background-color: rgba(0,0,0,0.8);
         }
 
-        /* Player de música */
-        .music-player {
-            margin-top: 30px;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        .heart-button {
+            cursor: pointer;
+            font-size: 6em;
+            color: #e91e63;
+            transition: transform 0.3s ease;
+        }
+        .heart-button:hover {
+            transform: scale(1.1);
+        }
+        .heart-button.hidden {
+            display: none;
         }
 
-        .music-player h3 {
-            color: #e91e63; /* Tom de rosa */
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .music-player audio {
+        /* Animação de corações */
+        .heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .heart {
+            position: absolute;
+            font-size: 1.5em;
+            color: red;
+            animation: heart-fall 10s linear infinite;
+        }
+        @keyframes heart-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.5;
+            }
         }
 
-        /* Rodapé */
+        /* Frases de amor */
+        .love-quote {
+            margin-top: 2em;
+            padding: 2em;
+            background-color: #fff;
+            border-left: 5px solid #ff69b4;
+            border-radius: 5px;
+            font-style: italic;
+            position: relative;
+        }
+        .love-quote p {
+            font-size: 1.1em;
+            color: #555;
+            margin: 0;
+        }
+        .reload-quote {
+            cursor: pointer;
+            margin-top: 1em;
+            color: #e91e63;
+            font-weight: bold;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+        .reload-quote:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo do Rodapé com Redes Sociais */
         footer {
             background-color: #333;
             color: white;
-            padding: 1em 0;
-            position: relative;
-            bottom: 0;
+            padding: 2em 0;
             width: 100%;
         }
-        
-        /* Responsividade */
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #ffb6c1;
+        }
+        footer p {
+            margin-top: 1em;
+            font-size: 0.9em;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2em;
@@ -142,6 +228,7 @@
 <body>
     <header>
         <h1>Feliz 1 Ano de Namoro, Izabelly!</h1>
+        <div id="rotating-text"></div>
     </header>
 
     <main>
@@ -149,11 +236,34 @@
             <p>Há um ano, minha vida mudou para melhor. Obrigado por todos os momentos, risadas e aventuras.</p>
         </section>
 
-        <section class="countdown">
-            <h2>Faltam para o nosso dia!</h2>
-            <div id="timer"></div>
+        <section id="aniversario-section">
+            <div class="countdown">
+                <h2>Faltam para o nosso dia!</h2>
+                <div id="timer"></div>
+            </div>
+            
+            <div class="surpresa">
+                <span id="heart-btn" class="heart-button">&#10084;&#65039;</span>
+                <div id="mensagem-secreta" style="display: none;">
+                    <h2>Feliz 1 Ano de Namoro, Meu Amor!</h2>
+                    <p>
+                        Meu amor, chegamos a um ano de muitas histórias, risadas e momentos inesquecíveis.
+                        Obrigado por ser a pessoa mais incrível que já conheci. Cada dia ao seu lado é uma aventura.
+                        Que venham muitos e muitos anos mais! Te amo!
+                    </p>
+                </div>
+                <audio id="musica-surpresa" loop>
+                    <source src="te-vivo.mp3" type="audio/mpeg">
+                    Seu navegador não suporta a tag de áudio.
+                </audio>
+            </div>
         </section>
 
+        <section class="love-quote">
+            <p id="quote-text"></p>
+            <span class="reload-quote" onclick="displayRandomQuote()">Ver outra frase</span>
+        </section>
+        
         <section class="gallery">
             <h2>Nossas memórias</h2>
             <div class="slideshow-container">
@@ -185,32 +295,57 @@
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
         </section>
-        
-        <div class="music-player">
-            <h3>Nossa Música Especial</h3>
-            <audio controls autoplay loop>
-                <source src="te-vivo.mp3" type="audio/mpeg">
-                Seu navegador não suporta a tag de áudio.
-            </audio>
-        </div>
-
-        <section class="message">
-            <h2>Uma mensagem para você</h2>
-            <p>Escreva aqui uma mensagem especial e sincera para ela.</p>
-        </section>
     </main>
 
     <footer>
+        <div class="social-icons">
+            <a href="https://instagram.com/emanuel_emuh" target="_blank" aria-label="Instagram Emanuel">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://instagram.com/izabelly_barra_" target="_blank" aria-label="Instagram Izabelly">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
         <p>Criado com amor por Emanuel ❤️</p>
     </footer>
 
+    <div id="heart-rain-container" class="heart-container"></div>
+
+
     <script>
-        // Não se esqueça de alterar a data abaixo para o dia de vocês!
+        // Data do aniversário - Não se esqueça de alterar!
         const anniversaryDate = new Date("August 7, 2025 00:00:00").getTime();
+
+        const countdownSection = document.querySelector('.countdown');
+        const surpriseSection = document.querySelector('.surpresa');
+        const heartButton = document.getElementById('heart-btn');
+        const secretMessage = document.getElementById('mensagem-secreta');
+        const musicPlayer = document.getElementById('musica-surpresa');
+        const heartRainContainer = document.getElementById('heart-rain-container');
+
+        let messageRevealed = false;
 
         const timer = setInterval(function() {
           const now = new Date().getTime();
           const distance = anniversaryDate - now;
+
+          if (distance < 0) {
+            clearInterval(timer);
+            countdownSection.style.display = 'none';
+            surpriseSection.style.display = 'block';
+            
+            // Adiciona o evento para revelar a mensagem ao clicar no coração
+            heartButton.addEventListener('click', function() {
+                if (!messageRevealed) {
+                    secretMessage.style.display = 'block';
+                    heartButton.classList.add('hidden');
+                    musicPlayer.play();
+                    startHeartFall();
+                    messageRevealed = true;
+                }
+            });
+            return;
+          }
 
           const days = Math.floor(distance / (1000 * 60 * 60 * 24));
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -219,11 +354,6 @@
 
           document.getElementById("timer").innerHTML = days + "d " + hours + "h "
           + minutes + "m " + seconds + "s ";
-
-          if (distance < 0) {
-            clearInterval(timer);
-            document.getElementById("timer").innerHTML = "Feliz Aniversário de Namoro!";
-          }
         }, 1000);
 
         // Código do Slideshow de fotos (corrigido)
@@ -240,8 +370,8 @@
                 slideIndex = 1;
             }
             slides[slideIndex-1].style.display = "block";
-            clearTimeout(slideTimer); // Limpa o timer anterior
-            slideTimer = setTimeout(showSlides, 3000); // Inicia um novo timer
+            clearTimeout(slideTimer);
+            slideTimer = setTimeout(showSlides, 3000);
         }
 
         function plusSlides(n) {
@@ -251,6 +381,60 @@
         }
 
         showSlides();
+
+        // Código das novas funcionalidades
+        const rotatingTexts = [
+            "meu sol",
+            "meu amor",
+            "minha razão de viver",
+            "a minha melhor amiga",
+            "a dona do meu coração",
+            "o meu porto seguro"
+        ];
+        let rotatingTextIndex = 0;
+        const rotatingTextElement = document.getElementById('rotating-text');
+
+        function updateRotatingText() {
+            rotatingTextElement.innerHTML = `Você é ${rotatingTexts[rotatingTextIndex]}`;
+            rotatingTextIndex = (rotatingTextIndex + 1) % rotatingTexts.length;
+        }
+
+        updateRotatingText();
+        setInterval(updateRotatingText, 4000); // Muda a cada 4 segundos
+
+        const quotes = [
+            "O amor não consiste em olhar um para o outro, mas em olhar juntos na mesma direção.",
+            "Amar não é apenas dizer 'eu te amo', é cuidar, é dar carinho e atenção.",
+            "Que o nosso amor seja forte e que a felicidade nos acompanhe em todos os dias.",
+            "Você é a poesia que eu nunca soube que estava procurando.",
+            "Um ano se passou e cada dia é uma nova página para a nossa história de amor.",
+            "No nosso amor, o tempo é apenas um detalhe, pois o que importa é a intensidade de cada momento."
+        ];
+        const quoteTextElement = document.getElementById('quote-text');
+        
+        function displayRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteTextElement.innerHTML = quotes[randomIndex];
+        }
+        
+        displayRandomQuote(); // Exibe uma frase inicial
+
+        // Animação de corações flutuantes
+        function startHeartFall() {
+            setInterval(function() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 5 + 5 + 's';
+                heart.style.opacity = Math.random() * 0.5 + 0.5;
+                heartRainContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }, 300);
+        }
     </script>
 </body>
 </html>
