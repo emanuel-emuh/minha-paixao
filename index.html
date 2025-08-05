@@ -192,45 +192,32 @@
             document.getElementById("timer").innerHTML = "Feliz Aniversário de Namoro!";
           }
         }, 1000);
+        
+        // Código do Slideshow de fotos (corrigido)
+        let slideIndex = 0;
+        let slideTimer;
 
-        // Código do Slideshow de fotos
-        let slideIndex = 1;
-        showSlides(slideIndex);
-
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
-
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
-        }
-
-        function showSlides(n) {
-            let i;
+        function showSlides() {
             let slides = document.getElementsByClassName("mySlides");
-            if (n > slides.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = slides.length}
-            for (i = 0; i < slides.length; i++) {
+            for (let i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
             }
             slides[slideIndex-1].style.display = "block";
+            clearTimeout(slideTimer); // Limpa o timer anterior
+            slideTimer = setTimeout(showSlides, 3000); // Inicia um novo timer
         }
-        
-        let autoSlideIndex = 0;
-        showAutoSlides();
 
-        function showAutoSlides() {
-            let i;
-            let slides = document.getElementsByClassName("mySlides");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            autoSlideIndex++;
-            if (autoSlideIndex > slides.length) {autoSlideIndex = 1}
-            slides[autoSlideIndex-1].style.display = "block";
-            setTimeout(showAutoSlides, 3000); // Muda a cada 3 segundos
+        function plusSlides(n) {
+            clearTimeout(slideTimer);
+            slideIndex += n - 1;
+            showSlides();
         }
+
+        showSlides();
     </script>
 </body>
 </html>
-
