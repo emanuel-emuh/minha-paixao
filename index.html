@@ -71,7 +71,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* Botões de navegação */
+        /* Botões de navegação (corrigidos) */
         .prev, .next {
             cursor: pointer;
             position: absolute;
@@ -83,16 +83,41 @@
             font-weight: bold;
             font-size: 20px;
             transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
             user-select: none;
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.5); /* Cor de fundo mais suave */
+            opacity: 0.7; /* Transparência */
+        }
+        .prev {
+            left: 10px; /* Move para a esquerda */
+            border-radius: 3px 0 0 3px;
         }
         .next {
-            right: 0;
+            right: 10px; /* Move para a direita */
             border-radius: 3px 0 0 3px;
         }
         .prev:hover, .next:hover {
-            background-color: rgba(0,0,0,0.5);
+            opacity: 1; /* Transparência total ao passar o mouse */
+            background-color: rgba(0,0,0,0.8); /* Cor de fundo mais escura ao passar o mouse */
+        }
+
+        /* Player de música */
+        .music-player {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .music-player h3 {
+            color: #e91e63; /* Tom de rosa */
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .music-player audio {
+            width: 100%;
         }
 
         /* Rodapé */
@@ -160,6 +185,14 @@
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
         </section>
+        
+        <div class="music-player">
+            <h3>Nossa Música Especial</h3>
+            <audio controls autoplay loop>
+                <source src="te-vivo.mp3" type="audio/mpeg">
+                Seu navegador não suporta a tag de áudio.
+            </audio>
+        </div>
 
         <section class="message">
             <h2>Uma mensagem para você</h2>
@@ -192,7 +225,7 @@
             document.getElementById("timer").innerHTML = "Feliz Aniversário de Namoro!";
           }
         }, 1000);
-        
+
         // Código do Slideshow de fotos (corrigido)
         let slideIndex = 0;
         let slideTimer;
