@@ -434,7 +434,7 @@
             left: -150px;
         }
         
-        /* Estilo para a nova caixa de mensagem */
+        /* Estilo para a caixa de mensagem */
         .message-box {
             margin-top: 2em;
             padding: 2em;
@@ -452,6 +452,33 @@
             font-size: 1.1em;
             color: #555;
             line-height: 1.6;
+        }
+
+        /* Estilo para o player de música */
+        .music-player {
+            margin: 2em auto;
+            max-width: 800px;
+        }
+        .music-player h3 {
+            color: #e91e63;
+            font-size: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        /* Estilo para o player de vídeo */
+        .video-player {
+            margin: 2em auto;
+            max-width: 800px;
+        }
+        .video-player h3 {
+            color: #e91e63;
+            font-size: 1.5em;
+            margin-bottom: 1em;
+        }
+        .video-player video {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         /* Estilo do Rodapé com Redes Sociais */
@@ -564,6 +591,15 @@
             </audio>
         </div>
 
+        <section class="video-player">
+            <h3>Nosso Vídeo Especial</h3>
+            <video controls autoplay loop>
+                <source src="video1.mp4" type="video/mp4">
+                <source src="video2.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </section>
+        
         <section class="love-quote">
             <p id="quote-text"></p>
             <span class="reload-quote" onclick="displayRandomQuote()">Ver outra frase</span>
@@ -841,16 +877,15 @@
         }
         createParticles();
 
-        // Novo script para garantir que a música tente tocar
+        // Autoplay para o vídeo
         window.addEventListener('DOMContentLoaded', (event) => {
-            const musicPlayer = document.getElementById('special-music');
-            if (musicPlayer) {
-                musicPlayer.play().catch(error => {
-                    console.log("Autoplay bloqueado. Clique no botão de play para ouvir a música.");
+            const videoPlayer = document.getElementById('special-video');
+            if (videoPlayer) {
+                videoPlayer.play().catch(error => {
+                    console.log("Autoplay de vídeo bloqueado. O usuário precisa interagir para iniciar a reprodução.");
                 });
             }
         });
     </script>
 </body>
 </html>
-
